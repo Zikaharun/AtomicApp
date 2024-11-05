@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) {
     $notes = $_POST["notes"];
 
     // Input validation
-    if (!empty($id_bad_habit) && !empty($date) && !empty($daily_frequency) && !empty($notes)) {
+    if (!empty($id_bad_habit) && !empty($date) && !empty($notes)) {
         // Prepare the query to insert habit progress
         $stmt = $connect->prepare("INSERT INTO bad_habit_progress (id_bad_habit, date, daily_frequency, notes) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("isis", $id_bad_habit, $date, $daily_frequency, $notes);
@@ -111,7 +111,7 @@ if (isset($_POST['submit'])) {
             <?php while($row = $target_result-> fetch_assoc()) : ?>
 
             <h2 class="text-center text-xl text-red-500 font-semibold">Your target for a week <?= $row['bad_habit_name'] ?> <?= $row['begin_frequency']?> times!</h2>
-            <p class="text-center text-md text-red-500 font-semibold">You haven't done anything yet this week!</p>
+            <p class="text-center text-md text-blue-500 font-semibold">You haven't done anything yet this week! congrats!</p>
 
         <?php endwhile; ?>
         <?php endif; ?>
@@ -149,12 +149,12 @@ if (isset($_POST['submit'])) {
 
                 <div>
               <label for="daily_frequency" class="block text-sm font-medium text-gray-700">Daily Frequency</label>
-                    <input type="number" id="daily_frequency" name="daily_frequency" required class="mt-1 block  w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-2">
+                    <input type="number" id="daily_frequency" name="daily_frequency"  class="mt-1 block  w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 p-2">
                 </div>
 
                 <div>
                     <label for="notes" class="block text-sm font-medium text-gray-700">Notes</label>
-                    <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full p-4 border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"></textarea>
+                    <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full p-4 border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" placeholder="Write here what you feel..."></textarea>
                 </div>
 
                 <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-200" name="submit">Add Bad Habit Progress</button>

@@ -112,9 +112,9 @@ if (isset($_POST['submit'])) {
             <h2 class="text-center text-xl text-red-500 font-semibold">Your target for a week <?= $row['habit_name'] ?> <?= $row['frekuensi_target']?> times!</h2>
             <p class="text-center text-md text-red-500 font-semibold">You haven't done anything yet this week!</p>
 
-        <?php endwhile; ?>
+            <?php endwhile; ?>
         <?php endif; ?>
-
+        <p class="text-center text-md text-blue-500 my-4 font-semibold">Just start with a few small movements to begin.</p>
 
         </div>
 

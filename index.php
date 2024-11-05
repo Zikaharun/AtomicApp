@@ -63,10 +63,10 @@ if (isset($_SESSION['id_akun'])) {
         <button class="bg-white border-2 border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold"  onclick="window.location.href='badhabits/badhabits.php'">
             Reduce bad habits.
         </button>
-        <button class="bg-white border-2 border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold"  onclick="window.location.href='#'">
+        <button class="bg-white border-2 border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold"  onclick="window.location.href='tracking_good_habits/tracking_good_habits.php'">
             <h3 class="text-center font-bold">Tracking your habits.</h3>
         </button>
-        <button class="bg-white border-2 border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold"  onclick="window.location.href='#'">
+        <button class="bg-white border-2 border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold"  onclick="window.location.href='tracking_badhabits_progress/tracking_badhabits.php'">
             <h3 class="text-center font-bold">Tracking your bad habits.</h3>
         </button>
     </div>

@@ -34,14 +34,18 @@ if (!$progress_result) {
 
 // Query untuk mendapatkan data mingguan untuk chart
 $stmt_weekly = $connect->prepare("
-    SELECT date, daily_frequency 
+    SELECT date, SUM(daily_frequency) AS total_daily_frequency 
     FROM bad_habit_progress 
     WHERE id_bad_habit = ? AND date >= DATE_SUB(NOW(), INTERVAL 1 WEEK)
+    GROUP BY date
     ORDER BY date ASC
 ");
 $stmt_weekly->bind_param("i", $progress_result['id_bad_habit']);
 $stmt_weekly->execute();
 $weekly_data = $stmt_weekly->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$total_weekly_progress = array_sum(array_column($weekly_data, 'total_daily_frequency'));
+
 
 // Query untuk mendapatkan data harian selama 30 hari terakhir
 $stmt_daily = $connect->prepare("
@@ -80,29 +84,29 @@ $total_daily_data = $stmt_total_daily->get_result()->fetch_assoc();
         <?php if ($progress_result): ?>
             <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
                 <h2 class="font-bold text-2xl"><?= htmlspecialchars($progress_result['bad_habit_name']); ?></h2>
-                <p><strong>Date:</strong> <?= htmlspecialchars($progress_result['date']); ?></p>
-                <p><strong>Daily Frequency:</strong> <?= htmlspecialchars($progress_result['daily_frequency']); ?></p>
-                <p><strong>Notes:</strong> <?= htmlspecialchars($progress_result['notes']); ?></p>
+                <p class="text-slate-500 font-semibold"><strong>Date:</strong> <?= htmlspecialchars($progress_result['date']); ?></p>
+                <p class="text-slate-500 font-semibold"><strong>Daily Frequency:</strong> <?= htmlspecialchars($progress_result['daily_frequency']); ?></p>
+                <p class="text-slate-500 font-semibold"><strong>Notes:</strong> <?= htmlspecialchars($progress_result['notes']); ?></p>
             </div>
 
             <!-- Weekly Progress Chart -->
             <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Weekly Progress</h2>
+                <h2 class="text-2xl font-bold mb-4">Weekly Progress</h2>
+                <h3 class="text-xl font-semibold text-gray-500">Total Weekly Progress: <?= $total_weekly_progress ?> times</h3>
                 <canvas id="weeklyProgressChart"></canvas>
             </div>
 
             <!-- Daily Progress Chart -->
             <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-2xl font-semibold mb-4">Daily Progress</h2>
+                <h2 class="text-2xl font-bold mb-4">Daily Progress</h2>
                 <?php if ($total_daily_data): ?>
-                    <h3 class="text-xl font-semibold mb-4"><?= $total_daily_data['total_progress_daily']?> times.</h3>
+                    <h3 class="text-xl text-gray-500 font-semibold mb-4"><?= $total_daily_data['total_progress_daily']?> times.</h3>
                 <?php endif; ?>
 
                 <canvas id="dailyProgressChart"></canvas>
             </div>
 
             <script>
-
                 const ctxWeekly = document.getElementById('weeklyProgressChart').getContext('2d');
                 const ctxDaily = document.getElementById('dailyProgressChart').getContext('2d');
 
@@ -111,7 +115,7 @@ $total_daily_data = $stmt_total_daily->get_result()->fetch_assoc();
 
                 // Extract dates and frequency values for the weekly chart
                 const weeklyDates = weeklyData.map(data => data.date);
-                const weeklyFrequencies = weeklyData.map(data => data.daily_frequency);
+                const weeklyFrequencies = weeklyData.map(data => data.total_daily_frequency);
 
                 // Generate the weekly chart
                 new Chart(ctxWeekly, {
