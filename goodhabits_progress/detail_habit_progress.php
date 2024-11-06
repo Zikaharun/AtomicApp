@@ -73,38 +73,42 @@ $total_daily_data = $stmt_total_daily->get_result()->fetch_assoc();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habit Progress Detail | Atomic App.</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="min-h-screen bg-gray-100">
     <?php include("../layout/header.html"); ?>
-    <div class="container mx-auto p-5 bg-gray-100">
-        <h1 class="text-4xl font-bold text-center mb-8 text-blue-600">Habit Progress Detail</h1>
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 bg-gray-100">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center mb-6 text-blue-600">Habit Progress Detail</h1>
 
         <?php if ($progress_result): ?>
-            <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
-                <h2 class="font-bold text-2xl"><?= htmlspecialchars($progress_result['habit_name']); ?></h2>
+            <div class="bg-white shadow-lg rounded-lg p-4 sm:p-6 mb-8">
+                <h2 class="font-bold text-xl sm:text-2xl"><?= htmlspecialchars($progress_result['habit_name']); ?></h2>
                 <p class="text-slate-500 font-semibold"><strong>Date:</strong> <?= htmlspecialchars($progress_result['date']); ?></p>
                 <p class="text-slate-500 font-semibold"><strong>Daily Frequency:</strong> <?= htmlspecialchars($progress_result['daily_frequency']); ?></p>
                 <p class="text-slate-500 font-semibold"><strong>Notes:</strong> <?= htmlspecialchars($progress_result['notes']); ?></p>
             </div>
 
             <!-- Weekly Progress Chart -->
-            <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-4">Weekly Progress</h2>
-                <h3 class="text-xl font-semibold text-gray-500">Total Weekly Progress: <?= $total_weekly_progress ?> times</h3>
-                <canvas id="weeklyProgressChart"></canvas>
+            <div class="bg-white shadow-lg rounded-lg p-4 sm:p-6 mb-8">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4">Weekly Progress</h2>
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-500">Total Weekly Progress: <?= $total_weekly_progress ?> times</h3>
+                <div class="relative w-full">
+                    <canvas id="weeklyProgressChart"></canvas>
+                </div>
             </div>
 
             <!-- Daily Progress Chart -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-2xl font-bold mb-4">Daily Progress</h2>
+            <div class="bg-white shadow-lg rounded-lg p-4 sm:p-6">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4">Daily Progress</h2>
                 <?php if ($total_daily_data): ?>
-                    <h3 class="text-xl text-gray-500 font-semibold mb-4"><?= $total_daily_data['total_progress_daily']?> times.</h3>
+                    <h3 class="text-lg sm:text-xl text-gray-500 font-semibold mb-4"><?= $total_daily_data['total_progress_daily']?> times.</h3>
                 <?php endif; ?>
-
-                <canvas id="dailyProgressChart"></canvas>
+                <div class="relative w-full">
+                    <canvas id="dailyProgressChart"></canvas>
+                </div>
             </div>
 
             <script>
@@ -114,11 +118,11 @@ $total_daily_data = $stmt_total_daily->get_result()->fetch_assoc();
                 const weeklyData = <?= json_encode($weekly_data); ?>;
                 const dailyData = <?= json_encode($daily_data); ?>;
 
-                // Extract dates and frequency values for the weekly chart
+                // Weekly chart data
                 const weeklyDates = weeklyData.map(data => data.date);
                 const weeklyFrequencies = weeklyData.map(data => data.total_daily_frequency);
 
-                // Generate the weekly chart
+                // Weekly Progress Chart
                 new Chart(ctxWeekly, {
                     type: 'line',
                     data: {
@@ -146,11 +150,11 @@ $total_daily_data = $stmt_total_daily->get_result()->fetch_assoc();
                     }
                 });
 
-                // Extract dates and frequency values for the daily chart
+                // Daily chart data
                 const dailyDates = dailyData.map(data => data.date);
                 const dailyFrequencies = dailyData.map(data => data.total_daily_frequency);
 
-                // Generate the daily chart
+                // Daily Progress Chart
                 new Chart(ctxDaily, {
                     type: 'bar',
                     data: {
@@ -175,19 +179,13 @@ $total_daily_data = $stmt_total_daily->get_result()->fetch_assoc();
                             x: { title: { display: true, text: 'Date' } },
                             y: { title: { display: true, text: 'Frequency' },
                                 beginAtZero: true }
-                           
                         }
                     }
                 });
             </script>
         <?php else: ?>
-            <p>No habit progress data found.</p>
+            <p class="text-center text-gray-600 mt-8">No habit progress data found.</p>
         <?php endif; ?>
     </div>
 </body>
 </html>
-
-
-
-
-

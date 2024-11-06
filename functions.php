@@ -12,7 +12,6 @@ function register($data) {
     global $connect;
 
     $username = strtolower(stripslashes($data["username"]));
-    $email = $data["email"];
     $password = mysqli_real_escape_string( $connect, $data["password"]);
     $password2 = mysqli_real_escape_string( $connect, $data["password-confirm"]);
 
@@ -39,10 +38,10 @@ function register($data) {
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    $query = "INSERT INTO account (username, email, password) VALUES (?,?,?)";
+    $query = "INSERT INTO account (username, password) VALUES (?,?)";
 
     if($stmt = mysqli_prepare($connect, $query)) {
-        mysqli_stmt_bind_param($stmt, "sss", $username, $email, $password);
+        mysqli_stmt_bind_param($stmt, "ss", $username, $password);
 
         if(mysqli_stmt_execute($stmt)) {
             echo "<script>

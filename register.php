@@ -34,15 +34,10 @@ if (isset($_POST["submit"])) {
             <h1 class="text-center text-3xl font-bold text-gray-800">Atomic App</h1>
             <h2 class="text-center text-xl font-semibold text-gray-600">Register Account</h2>
 
-            <form action="" method="post" class="space-y-4">
+            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="space-y-4">
                 <div>
                     <label for="username" class="block text-sm font-semibold text-gray-700">Username:</label>
                     <input class="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" type="text" name="username" id="username" placeholder="Username" required />
-                </div>
-
-                <div>
-                    <label for="email" class="block text-sm font-semibold text-gray-700">Email:</label>
-                    <input class="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" type="email" name="email" id="email" placeholder="Email" required />
                 </div>
 
                 <div>
