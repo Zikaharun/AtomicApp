@@ -1,2 +1,1 @@
-I created web application to build small good habits and break bad ones. I inspired by "Atomic habits" book to build it. In this web app, you can create what you want to build good habits or what you want to reduce your bad habits then, you can tracking your progress daily or weekly.
-This web application is still in the development stage, If you have any feedback or any ideas about the fiture, you can contribute or fork this repository because this repository is open source.
+
